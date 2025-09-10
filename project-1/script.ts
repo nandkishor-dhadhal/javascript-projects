@@ -1,4 +1,11 @@
-const userData = [
+interface userData{
+  id : string;
+  name : string;
+  city : string;
+  state : string;
+}
+
+const userData : userData[] = [
   { id: "1", name: "Om", city: "Rajkot", state: "Gujarat" },
   { id: "2", name: "Priya", city: "Ahmedabad", state: "Gujarat" },
   { id: "3", name: "Amit", city: "Surat", state: "Gujarat" },
