@@ -1,12 +1,24 @@
-const userInputString = document.getElementById("brackets")! as HTMLInputElement;
+const userInputString = document.getElementById(
+  "brackets"
+)! as HTMLInputElement;
 const checkBtn = document.getElementById("checkBtn")! as HTMLInputElement;
-const answer = document.getElementById("answer")! as HTMLInputElement;
+const answer = document.getElementById("answer")! as HTMLElement;
 
 const checkValidInput = (char: string): boolean => {
-  return ["(", ")", "{", "}", "[", "]"].includes(char);
+  if (
+    char === "[" ||
+    char === "]" ||
+    char === "{" ||
+    char === "}" ||
+    char === "(" ||
+    char === ")"
+  ) {
+    return true;
+  }
+  return false;
 };
 
-const isMatchingPair = (open: string | undefined, close: string): boolean => {
+const isMatchingPair = (open: string, close: string): boolean => {
   return (
     (open === "(" && close === ")") ||
     (open === "{" && close === "}") ||
@@ -15,12 +27,16 @@ const isMatchingPair = (open: string | undefined, close: string): boolean => {
 };
 
 const checkValidParentheses = () => {
-  if(!userInputString.value){
-    
+  if (!userInputString.value) {
+    answer.textContent = "INVALID INPUT";
+    return;
   }
   const inputString = userInputString.value.trim();
+  if (inputString.length % 2 !== 0) {
+    answer.textContent = "INVALID INPUT";
+    return;
+  }
   const userString = inputString.split("");
-
   for (let char of userString) {
     if (!checkValidInput(char)) {
       answer.textContent = "INVALID INPUT";
@@ -28,29 +44,19 @@ const checkValidParentheses = () => {
     }
   }
 
-  const arrayOfBracket : string[]= [];
-
-  for (let char of userString) {
-    if (char === "(" || char === "{" || char === "[") {
-      arrayOfBracket.push(char);
+  let start = 0;
+  let end = userString.length - 1;
+  while (start < end) {
+    if (!isMatchingPair(userString[start], userString[end])) {
+      answer.textContent = "INVALID INPUT";
+      return;
     } else {
-      if (arrayOfBracket.length === 0) {
-        answer.textContent = "FALSE";
-        return;
-      }
-      const lastOpen = arrayOfBracket.pop();
-      if (!isMatchingPair(lastOpen, char)) {
-        answer.textContent = "FALSE";
-        return;
-      }
+      start++;
+      end--;
     }
   }
 
-  if (arrayOfBracket.length === 0) {
-    answer.textContent = "TRUE";
-  } else {
-    answer.textContent = "FALSE";
-  }
+  answer.textContent = "TRUE";
 };
 
 checkBtn.addEventListener("click", checkValidParentheses);
