@@ -1,11 +1,11 @@
-interface userData{
-  id : string;
-  name : string;
-  city : string;
-  state : string;
+interface UserData {
+  id: string;
+  name: string;
+  city: string;
+  state: string;
 }
 
-const userData : userData[] = [
+const userData: UserData[] = [
   { id: "1", name: "Om", city: "Rajkot", state: "Gujarat" },
   { id: "2", name: "Priya", city: "Ahmedabad", state: "Gujarat" },
   { id: "3", name: "Amit", city: "Surat", state: "Gujarat" },
@@ -23,8 +23,14 @@ const userData : userData[] = [
   { id: "15", name: "Ritika", city: "Ahmedabad", state: "Gujarat" },
 ];
 
+interface FormattedData {
+  [state: string]: {
+    [city: string]: { userId: string; userName: string }[];
+  };
+}
+
 const formatData = () => {
-  const userFormattedData = {};
+  const userFormattedData: FormattedData = {};
 
   userData.forEach((element) => {
     const { id, name, city, state } = element;
@@ -39,7 +45,7 @@ const formatData = () => {
     userFormattedData[state][city].push({ userId: id, userName: name });
   });
 
-  console.log("User Formatted Data :", userFormattedData);
+  console.log("User Formatted Data:", userFormattedData);
 };
 
 formatData();
